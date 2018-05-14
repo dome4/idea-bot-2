@@ -12,3 +12,17 @@ $app->get('/[{name}]', function (Request $request, Response $response, array $ar
     // Render index view
     return $this->renderer->render($response, 'index.phtml', $args);
 });
+
+/**
+ * create new idea
+ */
+$app->post('/idea', function ($request, $response, $args) {
+    echo $request;
+});
+
+/**
+ * get a random idea
+ */
+$app->get('/random-idea', function ($request, $response, $args) {
+    echo $request;
+});

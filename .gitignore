@@ -4,3 +4,8 @@
 
 # ignore IDE files
 .idea/
+
+# ignore settings files
+.env
+
+

@@ -28,39 +28,40 @@ class IdeaController
      * @param $args
      * @return mixed
      */
-   public function postIdea($request, $response, $args) {
+   public function postIdea($request, $response, $args)
+   {
 
-//       echo ($request);
+       // request params
+       $slack_token = $request->getParam('token');
+       $slack_user_id = $request->getParam('user_id');
+       $description = $request->getParam('text');
 
-       return $response->withStatus(201)
-           ->write('Insertion successfull');
+       // check slack token
+       if (strcmp($slack_token, getenv('SLACK_TOKEN_NEW_IDEA')) == 0) {
 
-       /*
-        // get query params
-       $description = $request->getQueryParam('description');
-       $user_id = $request->getQueryParam('user_id');
+           // insert idea
+           if ($description && $slack_user_id) {
+               $this->db->table('ideas')->insert(
+                   [
+                       'description' => $description,
+                       'user_id' => $slack_user_id,
+                       'created_at' => new DateTime(),
+                       'updated_at' => new DateTime()
+                   ]
+               );
 
-       // insert idea
-       if ($description && $user_id) {
-           $this->db->table('ideas')->insert(
-               [
-                   'description' => $description,
-                   'user_id' => $user_id,
-                   'created_at' => new DateTime(),
-                   'updated_at' => new DateTime()
-               ]
-           );
+               return $response->withStatus(201)
+                   ->write('Insertion successfull: ' . $description);
 
-           return $response->withStatus(201)
-               ->write('Insertion successfull');
+           } else {
+               return $response->withStatus(400)
+                   ->write('Parameters missing');
+           }
 
        } else {
-           return $response->withStatus(400)
-               ->write('Parameters missing');
+           return $response->withStatus(401)
+               ->write('Unauthorized Request');
        }
-
-       */
-
    }
 
     /**
@@ -75,10 +76,9 @@ class IdeaController
 
        // request params
        $slack_token = $request->getQueryParam('token');
-       $slack_user_id = $request->getQueryParam('user_id');
 
        // check slack token
-       if(strcmp($slack_token, getenv('SLACK_TOKEN')) == 0) {
+       if(strcmp($slack_token, getenv('SLACK_TOKEN_INSPIRE')) == 0) {
 
            // get a random idea
            $randomIdea = $this->db->table('ideas')->inRandomOrder()->first();

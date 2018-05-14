@@ -17,3 +17,8 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+
+// idea controller
+$container[\App\Controllers\IdeaController::class] = function ($c) {
+    return new \App\Controllers\IdeaController($c);
+};

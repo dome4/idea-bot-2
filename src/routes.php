@@ -1,7 +1,10 @@
 <?php
 
+
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Controllers\IdeaController;
+
 
 
 $app->group('/api', function () {
@@ -11,17 +14,11 @@ $app->group('/api', function () {
         /**
          * create new idea
          */
-        $this->post('/idea', function ($request, $response, $args) {
-            
-            return $response;
-        });
+        $this->post('/idea', IdeaController::class . ':postIdea');
 
         /**
          * get a random idea
          */
-        $this->get('/random-idea', function ($request, $response, $args) {
-            
-            return $response;
-        });
+        $this->get('/random-idea', IdeaController::class . ':getRandomIdea');
     });
 });

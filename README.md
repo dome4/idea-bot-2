@@ -6,6 +6,8 @@ This skeleton application was built for Composer. This makes setting up a new Sl
 
 ## Install the Application
 
+Import `db-dump.sql` in your database
+
 Run this command from the directory in which you want to install your new Slim Framework application.
 
     php composer.phar create-project slim/slim-skeleton [my-app-name]
